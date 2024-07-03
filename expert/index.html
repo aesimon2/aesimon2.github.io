@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Growl and Roar Experiment</title>
+  <meta charset="utf-8"/>
+  <script src="js/jquery.min.js"></script>
+  <script src="jspsych-6.1.0/jspsych.js"> </script>
+  <script src="jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-audio-button-response-flexiblelocations.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
+  <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css",type="text/css"> </link>
+  <link href="css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  <style>
+  div.absolute {
+    position: absolute;
+    left: 10px;
+    right: 0px;
+    top: 10px;
+    border: 3px solid #73AD21;
+  }
+  </style>
+</head>
+<body>
+  <div id="GrowlRoar-lwl"></div>
+</body>
+
+<script>
+
+
+
+/* Enter subject id */
+//var subject_id = prompt("Subject ID", "test")
+var subject_id = jsPsych.data.getURLVariable('sub')
+//var trial_order = prompt("Order (1 or 2)","1");
+var trial_order = jsPsych.data.getURLVariable('order')
+
+// read from a public spreadsheet for  trials
+// use the publish link NOT the sharing link
+
+if (trial_order == "GrowlAF1") {
+	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1AF.csv'
+} else if (trial_order =="GrowlAF2") {
+	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1AFb.csv'
+} else if (trial_order =="GrowlAM1") {
+	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1AM.csv'
+} else if (trial_order =="GrowlAM2") {
+	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1AMb.csv'
+} else if (trial_order =="GrowlBF1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1BF.csv'
+} else if (trial_order =="GrowlBF2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1BFb.csv'
+} else if (trial_order =="GrowlBM1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1BM.csv'
+} else if (trial_order =="GrowlBM2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1BMb.csv'
+} else if (trial_order =="GrowlLF1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1LF.csv'
+} else if (trial_order =="GrowlLF2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1LFb.csv'
+} else if (trial_order =="GrowlLM1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1LM.csv'
+} else if (trial_order =="GrowlLM2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1LMb.csv'
+} else if (trial_order =="GrowlWF1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1WF.csv'
+} else if (trial_order =="GrowlWF2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1WFb.csv'
+} else if (trial_order =="GrowlWM1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1WM.csv'
+} else if (trial_order =="GrowlWM2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudy1WMb.csv'
+} else if (trial_order =="RoarBF1") {
+ 	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyBF.csv'
+} else if (trial_order =="RoarBF2") {
+ 	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyBFb.csv'
+} else if (trial_order =="RoarWF1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyWF.csv'
+} else if (trial_order =="RoarWF2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyWFb.csv'
+} else if (trial_order =="RoarBM1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyBM.csv'
+} else if (trial_order =="RoarBM2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyBMb.csv'
+} else if (trial_order =="RoarWM1") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyWM.csv'
+} else if (trial_order =="RoarWM2") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyWMb.csv'
+} else if (trial_order =="GrowlDA") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudyDA.csv'
+} else if (trial_order =="GrowlDB") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/GrowlStudyDB.csv'
+} else if (trial_order =="RoarDA") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyDA.csv'
+} else if (trial_order =="RoarDB") {
+  	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/dabacon1/DABdiss/master/orders/RoarStudyDB.csv'
+}
+
+//lwl orders
+Papa.parse(publicSpreadsheetUrl,{
+  download: true,
+  header: true,
+  dynamicTyping: true,
+  complete: function(results) {
+    var data = results.data
+    console.log(data)
+    startExperiment(data); //don't start experiment until the spreadsheet is downloaded
+  }
+})
+
+
+document.body.style.backgroundColor = "black";
+document.body.style.backgroundSize = "100%";
+document.body.style.backgroundPosition = "top";
+document.body.style.backgroundRepeat = "no-repeat";
+
+/* create experiment timeline*/
+var timeline = []
+
+/* extract the elements from the CSV */
+function createTrials(data) {
+  console.log(data);
+
+/* display start screen */
+  var welcome = {
+    type: "fullscreen",
+    message: "",
+    button_label: "Start",
+    delay_after: 250
+  }
+
+ timeline.push(welcome);
+
+  /* var audio_test = {
+	type: "fullscreen",
+    stimulus:"stimuli/sounds/wow_cool_x4.wav",
+    message: "",
+    button_label: "<p> Please turn the volume up or down, so that the volume resembles a person's voice in the room. <br> Please tell the experimenter when you think the level is comfortable for you.</br> </p>",
+    delay_after: 250
+  }
+    /*type: "audio-keyboard-response",
+    stimulus:"stimuli/sounds/wow_cool_x4.wav",
+   /* choices:['ALL_KEYS'],
+   /* prompt: "<p> Please turn the volume up or down, so that the volume resembles a person's voice in the room. <br> Please tell the experimenter when you think the level is comfortable for you.</br> </p>"
+  }*/
+  /* timeline.push(audio_test); */
+
+  var expLength = data.length;
+  var audioExt="stimuli/sounds/"
+  var imageStart='<img src= "stimuli/images/'
+  var imageStop='.jpg" title = "" width="200" height="350">'
+  // var videoStart = "stimuli/videos/"
+  // var videoStop = ".mp4"
+
+// define the experimental procedure
+  for (var i = 0; i < expLength; i++) {
+    //define stimuli variables
+    var cur_trial_type = data[i]['trial_type'];
+    var cur_stimulus = audioExt+data[i]['auditory_stimulus']+".wav";
+    var cur_images = [imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['center_image']+imageStop, imageStart+data[i]['right_image']+imageStop];
+   // var cur_test_images = [imageStart+data[i]['left_image']+imageStop, imageStart+data[i]['right_image']+imageStop];
+    // var cur_left_video = videoStart+data[i]['left_video']+videoStop;
+    // var cur_right_video = videoStart+data[i]['right_video']+videoStop;
+    // var cur_side = data[i]['playing_side'];
+
+    // //define html buttons
+    // var cur_left_video_button = '<div><video id="left-video" width="400" ></div>';
+    // var cur_right_video_button = '<div><video id="right-video" width="400" ></div>';
+    // var cur_left_video_button_play = '<div><video id="left-video-play" width="400" autoplay></div>';
+    // var cur_right_video_button_play = '<div><video id="right-video-play" width="400" autoplay></div>';
+
+    //define set up visual display
+    var cur_background = data[i]['background'];
+
+        if (cur_trial_type == "intro"){
+      //define kid introduction trials
+      var intro_trials = {
+        type: 'audio-button-response-flexiblelocations',
+        stimulus: cur_stimulus,
+        choices: cur_images,
+        set_background: cur_background,
+        trial_duration: 7500,
+        //tiral_duration: 120000,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','0px'],
+        margin_right: ['0px','0px'],
+        response_possible: false,
+	response_ends_trial: false,
+        data:{
+        left_image: data[i]['left_image'],
+        center_image: data[i]['center_image'],
+        right_image: data[i]['right_image'],
+        target_label: data[i]['target_label'],
+        target_side: data[i]['target_side'],
+        trial_type: data[i]['trial_type'],
+        correct_response: data[i]['correct_response'],
+        background: data[i]['background']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+        timeline.push(intro_trials);
+    }
+	  
+	if (cur_trial_type == "FAM"){
+      //define Familiarization trials
+      var fam_trials = {
+        type: 'audio-button-response-flexiblelocations',
+        stimulus: cur_stimulus,
+        choices: cur_images,
+        set_background: cur_background,
+        trial_duration: 6000,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','0px'],
+        margin_right: ['0px','0px'],
+        response_possible: false,
+	response_ends_trial: false,
+        data:{
+        left_image: data[i]['left_image'],
+        center_image: data[i]['center_image'],
+        right_image: data[i]['right_image'],
+        target_label: data[i]['target_label'],
+        target_side: data[i]['target_side'],
+        trial_type: data[i]['trial_type'],
+        correct_response: data[i]['correct_response'],
+        background: data[i]['background']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+        timeline.push(fam_trials);
+    }
+
+
+    if (cur_trial_type == "FAM_LWL"){
+      //define familiar test trials
+      var FAM_LWL_trials = {
+        type: 'audio-button-response-flexiblelocations',
+        stimulus: cur_stimulus,
+        choices: cur_images,
+        set_background: cur_background,
+        trial_duration: 15000,
+        //tiral_duration: 120000,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','0px'],
+        margin_right: ['0px','0px'],
+        response_possible: true,
+	response_ends_trial: true,
+        data:{
+    		left_image: data[i]['left_image'],
+    		right_image: data[i]['right_image'],
+    		target_label: data[i]['target_label'],
+    		target_side: data[i]['target_side'],
+        trial_type: data[i]['trial_type'],
+    		correct_response: data[i]['correct_response'],
+    		background: data[i]['background']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+        timeline.push(FAM_LWL_trials);
+    }
+
+    if (cur_trial_type == "Teaching"){
+      //define teaching trials
+	var Teaching_trials = {
+        type: 'audio-button-response-flexiblelocations',
+        stimulus: cur_stimulus,
+        choices: cur_images,
+        set_background: cur_background,
+        trial_duration: 6000,
+        //tiral_duration: 120000,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','0px'],
+        margin_right: ['0px','0px'],
+        response_possible: false,
+	response_ends_trial: false,
+        data:{
+        left_image: data[i]['left_image'],
+        center_image: data[i]['center_image'],
+        right_image: data[i]['right_image'],
+        target_label: data[i]['target_label'],
+        target_side: data[i]['target_side'],
+        trial_type: data[i]['trial_type'],
+        correct_response: data[i]['correct_response'],
+        background: data[i]['background']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+        timeline.push(Teaching_trials);
+    }
+
+    if (cur_trial_type == "ImmTest"){
+      //define immediate test trials
+      var ImmTest_trials = {
+        type: 'audio-button-response-flexiblelocations',
+        stimulus: cur_stimulus,
+        choices: cur_images,
+        set_background: cur_background,
+        trial_duration: 15000,
+        //tiral_duration: 120000,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','0px'],
+        margin_right: ['0px','0px'],
+        response_possible: true,
+	response_ends_trial: true,
+        data:{
+    		left_image: data[i]['left_image'],
+    		right_image: data[i]['right_image'],
+    		target_label: data[i]['target_label'],
+    		target_side: data[i]['target_side'],
+        trial_type: data[i]['trial_type'],
+    		correct_response: data[i]['correct_response'],
+    		background: data[i]['background']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+        timeline.push(ImmTest_trials);
+    }
+	if (cur_trial_type == "DelayTest"){
+	      //define immediate test trials
+	      var DelayTest_trials = {
+		type: 'audio-button-response-flexiblelocations',
+		stimulus: cur_stimulus,
+		choices: cur_images,
+		set_background: cur_background,
+		trial_duration: 15000,
+		//tiral_duration: 120000,
+		margin_top: ['0px','0px'],
+		margin_bottom: ['0px','0px'],
+		margin_left: ['0px','0px'],
+		margin_right: ['0px','0px'],
+		response_possible: true,
+		response_ends_trial: true,
+		data:{
+			left_image: data[i]['left_image'],
+			right_image: data[i]['right_image'],
+			target_label: data[i]['target_label'],
+			target_side: data[i]['target_side'],
+		trial_type: data[i]['trial_type'],
+			correct_response: data[i]['correct_response'],
+			background: data[i]['background']},
+		on_finish: function(data) {
+		  data.correct = data.button_pressed == data.correct_response;
+		}
+	      }
+		timeline.push(DelayTest_trials);
+	    }
+    if (cur_trial_type == "filler"){
+      //define filler trials
+     	var filler_trials = {
+        type: 'audio-button-response-flexiblelocations',
+        stimulus: cur_stimulus,
+        choices: cur_images,
+        set_background: cur_background,
+        trial_duration: 4500,
+        //tiral_duration: 120000,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','0px'],
+        margin_right: ['0px','0px'],
+        response_possible: false,
+	response_ends_trial: false,
+        data:{
+        left_image: data[i]['left_image'],
+        center_image: data[i]['center_image'],
+        right_image: data[i]['right_image'],
+        target_label: data[i]['target_label'],
+        target_side: data[i]['target_side'],
+        trial_type: data[i]['trial_type'],
+        correct_response: data[i]['correct_response'],
+        background: data[i]['background']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+        timeline.push(filler_trials);
+    }
+  }
+
+  var fullscreen_exit = {
+    type: 'fullscreen',
+    fullscreen_mode: false
+  }
+  timeline.push(fullscreen_exit)
+};
+
+
+var imageExt = 'stimuli/images/'
+
+
+var images = [
+"ApplecircleBlack.jpg",
+"appleSquare.jpg",
+"AsianBoy.jpg",
+"AsianBoyGray.jpg",
+"AsianBoyOutline.jpg",
+"AsianGirl.jpg",
+"AsianGirlGray.jpg",
+"AsianGirlOutline.jpg",
+"BallcircleBlack.jpg",
+"ballSquare.jpg",
+"Black.jpg",
+"black-background.jpg",
+"BlackBoy.jpg",
+"BlackBoyGray.jpg",
+"BlackBoyOutline.jpg",
+"BlackGirl.jpg",
+"BlackGirlGray.jpg",
+"BlackGirlOutline.jpg",
+"BlackBoy2.jpg",
+"BlackBoy2Gray.jpg",
+"BlackBoy2Outline.jpg",
+"BlackGirl2.jpg",
+"BlackGirl2Gray.jpg",
+"BlackGirl2Outline.jpg",
+"circleBlack.jpg",
+"LatinaGirl.jpg",
+"LatinaGirlGray.jpg",
+"LatinaGirlOutline.jpg",
+"LatinoBoy.jpg",
+"LatinoBoyGray.jpg",
+"LatinoBoyOutline.jpg",
+"LballoonsBlack.jpg",
+"LbeachBlack.jpg",
+"LfireworksBlack.jpg",
+"LoceanBlack.jpg",
+"nov1S1Circle.jpg",
+"nov1S1Square.jpg",
+"nov2S1Circle.jpg",
+"nov2S1Square.jpg",
+"nov3S1Circle.jpg",
+"nov3S1Square.jpg",
+"nov4S1Circle.jpg",
+"nov4S1Square.jpg",
+"nov5S1Circle.jpg",
+"nov5S1Square.jpg",
+"nov6S1Circle.jpg",
+"nov6S1Square.jpg",
+"nov7S1Circle.jpg",
+"nov7S1Square.jpg",
+"nov8S1Circle.jpg",
+"nov8S1Square.jpg",
+"nov1S2Circle.jpg",
+"nov1S2Square.jpg",
+"nov2S2Circle.jpg",
+"nov2S2Square.jpg",
+"nov3S2Circle.jpg",
+"nov3S2Square.jpg",
+"nov4S2Circle.jpg",
+"nov4S2Square.jpg",
+"nov5S2Circle.jpg",
+"nov5S2Square.jpg",
+"nov6S2Circle.jpg",
+"nov6S2Square.jpg",
+"nov7S2Circle.jpg",
+"nov7S2Square.jpg",
+"nov8S2Circle.jpg",
+"nov8S2Square.jpg",
+"RballoonsBlack.jpg",
+"RbeachBlack.jpg",
+"RfireworksBlack.jpg",
+"RoceanBlack.jpg",
+"ShoecircleBlack.jpg",
+"shoeSquare.jpg",
+"squareBlack.jpg",
+"TruckcircleBlack.jpg",
+"truckSquare.jpg",
+"WhiteBoy.jpg",
+"WhiteBoyGray.jpg",
+"WhiteBoyOutline.jpg",
+"WhiteGirl.jpg",
+"WhiteGirlGray.jpg",
+"WhiteGirlOutline.jpg",
+"WhiteBoy2.jpg",
+"WhiteBoy2Gray.jpg",
+"WhiteBoy2Outline.jpg",
+"WhiteGirl2.jpg",
+"WhiteGirl2Gray.jpg",
+"WhiteGirl2Outline.jpg",]
+
+var preload_images=[];
+
+for (var k = 0; k < images.length; k++) {
+	preload_images.push(imageExt+images[k]);
+};
+
+
+var audio = [
+"meetNewFriends",
+"E_hiDoa",
+"K_hiRaylor",
+"E_it.that_apple",
+"K_it.see_apple",
+"K_that.it_truck",
+"E_that.it_truck",
+"E_see.it_ball",
+"K_that.it_ball",
+"E_that.see_shoe",
+"K_see.that_shoe",
+"find_truck500",
+"where_apple500",
+"find_ball500",
+"where_shoe500",
+"greatJob",
+"E_that.see_koba",
+"K_see.it_blicket",
+"K_that.it_cheem",
+"E_see.that_fisp",
+"E_it.that_manu",
+"K_see.it_regli",
+"E_it.that_pank",
+"K_it.that_smope",
+"where_manu500",
+"where_fisp500",
+"find_pank500",
+"find_cheem500",
+"where_blicket500",
+"where_smope500",
+"find_koba500",
+"find_regli500",
+"greatListening",
+"E_see.that_zorch",
+"K_that.see_jick",
+"K_see.that_teebu",
+"E_that.it_wiso",
+"E_that.see_vab",
+"K_it.see_akar",
+"K_it.see_leam",
+"E_see.that_doff",
+"where_zorch500",
+"find_doff500",
+"find_jick500",
+"where_vab500",
+"where_akar500",
+"where_teebu500",
+"find_leam500",
+"find_wiso500",
+"takeBreak",
+"E_hiTevi",
+"K_hiKito",
+"E_that.see_glark",
+"K_see.it_bem",
+"K_that.it_virdex",
+"E_see.that_tanzer",
+"E_it.that_krat",
+"K_see.it_juff",
+"E_it.that_fiffen",
+"K_it.that_coodle",
+"K_that.it_virdex",
+"E_it.see_tanzer",
+"E_that.see_fiffen",
+"K_it.that_coodle",
+"K_see.it_bem",
+"E_see.that_glark",
+"E_it.see_krat",
+"K_see.it_juff",
+"where_krat500",
+"find_tanzer500",
+"where_fiffen500",
+"where_virdex500",
+"where_bem500",
+"find_coodle500",
+"find_glark500",
+"find_juff500",
+"E_see.that_osip",
+"K_that.see_modi",
+"K_see.that_hux",
+"E_that.it_zeb",
+"E_it.see_roke",
+"K_it.see_erag",
+"K_it.see_pisk",
+"E_see.that_wilp",
+"find_osip500",
+"find_wilp500",
+"where_modi500",
+"find_roke500",
+"where_erag500",
+"find_hux500",
+"where_pisk500",
+"where_zeb500",];
+
+var preload_audio  = [];
+
+for (var l = 0; l < preload_audio.length; l++) {
+	preload_audio.push(audioExt+audio[l]);
+};
+
+
+function startExperiment(data) {
+	createTrials(data);
+  // generate all the plugins
+jsPsych.init({ //js.psych initializes
+  timeline: timeline,
+  preload_audio:preload_audio,
+  preload_images:preload_images,
+	default_iti: 500,
+  on_finish: function() {
+  save_data('growlroar',trial_order,subject_id, jsPsych.data.get().csv());
+  }
+});
+};
+
+
+
+function save_data(experiment, version,identifier, data){
+	$.ajax({
+ 		type: 'post',
+ 		cache: false,
+ 		url: 'https://data.infantlearning.waisman.wisc.edu/infantdb/datastore/save/',
+ 		data: {
+			experiment: experiment,
+ 	version: version,
+ 			identifier: identifier,
+			data: data
+ 		}
+	})
+ };
+
+
+</script>
+
+</html>
