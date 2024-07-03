@@ -4,6 +4,7 @@
 <head>
   <title>Growl and Roar Experiment</title>
   <meta charset="utf-8"/>
+  <script src="js/jquery.min.js"></script>
   <script src="jspsych-6.1.0/jspsych.js"> </script>
   <script src="jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
   <script src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
@@ -604,7 +605,7 @@ jsPsych.init({ //js.psych initializes
   preload_images:preload_images,
 	default_iti: 500,
   on_finish: function() {
-  save_data('growlroar','trialorder',subject_id, jsPsych.data.dataAsCSV()); 
+  save_data('growlroar',trial_order,subject_id, jsPsych.data.get().csv());
   }
 });
 };
