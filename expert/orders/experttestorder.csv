@@ -1,6 +1,6 @@
 ﻿block,trial_number,auditory_stimulus,left_image,right_image,center_image,target_label,target_side,correct_response,playing_side,background,trial_type
 1,0,filler_meetnewfriends,girl1,girl2,circleblack,none,center,1,,black-background,FAM
-1,1,filler_hi_oliva,girl1outline,girl2gray,circleblack,red,left,0,,black-background,intro
+1,1,filler_hi_olivia,girl1outline,girl2gray,circleblack,red,left,0,,black-background,intro
 1,2,filler_hi_emily,girl1gray,girl2outline,circleblack,blue,right,2,,black-background,intro
 2,3,filler_1_lookatme,girl1outline,girl2gray,circleblack,red,left,0,,black-background,FAM
 2,4,filler_1_lookatme,girl1gray,girl2outline,circleblack,blue,right,2,,black-background,FAM
