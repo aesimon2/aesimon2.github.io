@@ -8,8 +8,8 @@ block,trial_number,auditory_stimulus,left_image,right_image,center_image,target_
 3,6,2itsee_ball,girl1gray,girl2outline,ball_circle,ball_blue,right,2,,black-background,FAM
 3,7,1seethat_shoe,girl1outline,girl2gray,shoe_circle,shoe_red,left,0,,black-background,FAM
 3,8,2thatit_shoe,girl1gray,girl2outline,shoe_circle,shoe_blue,right,2,,black-background,FAM
-4,9,find_shoe,shoesquare,ballsquare,black,shoe,left,0,,black-background,FAM_LWL
-4,10,where_ball,ballsquare,shoesquare,black,ball,left,0,,black-background,FAM_LWL
+4,9,find_shoe,shoe_square,ball_square,black,shoe,left,0,,black-background,FAM_LWL
+4,10,where_ball,ball_square,shoe_square,black,ball,left,0,,black-background,FAM_LWL
 4,11,nicework,LfireworksBlack,RfireworksBlack,black,AG,center,1,,black-background,filler
 5,12,1thatsee_tanzer,girl1outline,girl2gray,nov1_circle,tanzer_red,left,0,,black-background,Teaching
 5,13,2don'tknow,girl1gray,girl2outline,nov1_circle,tanzer_blue,right,2,,black-background,Teaching
