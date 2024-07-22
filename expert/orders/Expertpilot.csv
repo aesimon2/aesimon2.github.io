@@ -1,7 +1,7 @@
 block,trial_number,auditory_stimulus,left_image,right_image,center_image,target_label,target_side,correct_response,playing_side,background,trial_type
-1,0,meetnewfriends,girl1,girl2,black,none,center,1,,black-background,FAM
-1,1,hi_oliva,girl1outline,girl2gray,black,red,left,0,,black-background,FAM
-1,2,hi_emily,girl1gray,girl2outline,black,blue,right,2,,black-background,FAM
+1,0,meetnewfriends,girl1,girl2,black,none,center,1,,black-background,intro
+1,1,hi_oliva,girl1outline,girl2gray,black,red,left,0,,black-background,intro
+1,2,hi_emily,girl1gray,girl2outline,black,blue,right,2,,black-background,intro
 2,3,1lookatme,girl1outline,girl2gray,black,red,left,0,,black-background,FAM_LWL
 2,4,2lookatme,girl1gray,girl2outline,black,blue,right,2,,black-background,FAM_LWL
 3,5,1itthat_ball,girl1outline,girl2gray,ball_circle,ball_red,left,0,,black-background,FAM
