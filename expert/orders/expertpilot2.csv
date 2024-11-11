@@ -4,7 +4,7 @@
 1,2,hi_emily ,girl1gray,girl2outline,black,blue,right,2,,black-background,intro
 2,3,1lookatme,girl1outline,girl2gray,black,red,left,0,,black-background,Fam_test
 2,4,2lookatme,girl1gray,girl2outline,black,blue,right,2,,black-background,Fam_test
-3,5,listen_toys ,girl1,girl2,black,none,center,1,,black-background,intro
+3,5,listen_toys,girl1,girl2,black,none,center,1,,black-background,intro
 3,6,1itthat_ball,girl1outline,girl2gray,ball_circle,ball_red,left,0,,black-background,Fam
 3,7,2itsee_ball,girl1gray,girl2outline,ball_circle,ball_blue,right,2,,black-background,Fam
 3,8,1seethat_truck,girl1outline,girl2gray,truck_circle,truck_red,left,0,,black-background,Fam
@@ -17,9 +17,9 @@
 5,15,1thatsee_tanzer,girl1outline,girl2gray,nov1_circle,tanzer_red,left,0,,black-background,Teaching
 5,16,2don’tknow,girl1gray,girl2outline,nov1_circle,tanzer_blue,right,2,,black-background,Teaching
 5,17,2thatit_bosa,girl1gray,girl2outline,nov2_circle,bosa_blue,right,2,,black-background,Teaching
-5,18,1haven’tseen,girl1outline,girl2gray,nov2_circle,bosa_red,left,0,,black-background,Teaching
+5,18,1haven'tseen,girl1outline,girl2gray,nov2_circle,bosa_red,left,0,,black-background,Teaching
 5,19,1seeit_cheem,girl1outline,girl2gray,nov3_circle,cheem_red,left,0,,black-background,Teaching
-5,20,2haven’tseen,girl1gray,girl2outline,nov3_circle,cheem_blue,right,2,,black-background,Teaching
+5,20,2haven'tseen,girl1gray,girl2outline,nov3_circle,cheem_blue,right,2,,black-background,Teaching
 5,21,2seethat_noop,girl1gray,girl2outline,nov4_circle,noop_blue,right,2,,black-background,Teaching
 5,22,1don’tknow,girl1outline,girl2gray,nov4_circle,noop_red,left,0,,black-background,Teaching
 5,23,1itthat_akar,girl1outline,girl2gray,nov5_circle,akar_red,left,0,,black-background,Teaching
