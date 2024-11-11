@@ -1,7 +1,7 @@
 ﻿block,trial_number,auditory_stimulus,left_image,right_image,center_image,target_label,target_side,correct_response,playing_side,background,trial_type
 1,0,meetnewfriends,girl1,girl2,black,none,center,1,,black-background,intro
 1,1,hi_olivia,girl1outline,girl2gray,black,red,left,0,,black-background,intro
-1,2,hi_emily ,girl1gray,girl2outline,black,blue,right,2,,black-background,intro
+1,2,hi_emily,girl1gray,girl2outline,black,blue,right,2,,black-background,intro
 2,3,1lookatme,girl1outline,girl2gray,black,red,left,0,,black-background,Fam_test
 2,4,2lookatme,girl1gray,girl2outline,black,blue,right,2,,black-background,Fam_test
 3,5,listen_toys,girl1,girl2,black,none,center,1,,black-background,intro
@@ -25,7 +25,7 @@
 5,23,1itthat_akar,girl1outline,girl2gray,nov5_circle,akar_red,left,0,,black-background,Teaching
 5,24,2dontknow,girl1gray,girl2outline,nov5_circle,akar_blue,right ,2,,black-background,Teaching
 5,25,2itsee_wiso,girl1gray,girl2outline,nov6_circle,wiso_blue,right,2,,black-background,Teaching
-5,26,1haven’tseen,girl1outline,girl2gray,nov6_circle,wiso_red,left,0,,black-background,Teaching
+5,26,1haventseen,girl1outline,girl2gray,nov6_circle,wiso_red,left,0,,black-background,Teaching
 6,27,awesome_click,blank_square,blank_square,black,none,center,1,,black-background,intro
 6,28,find_akar,nov6_square,nov5_square,black,akar_red,right,2,,black-background,Fam_test
 6,29,where_wiso,nov6_square,nov5_square,black,wiso_blue,left,0,,black-background,Fam_test
@@ -45,7 +45,7 @@
 8,43,where_sadface,happyface_square,sadface_square,black,sad,right,2,,black-background,Fam_test
 8,44,where_ball,truck_square,ball_square,black,ball,right,2,,black-background,Fam_test
 8,45,goodjob,LfireworksBlack,RfireworksBlack,black,AG,center,1,,black-background,filler
-9,46,hear_again ,girl1,girl2,black,none,center,1,,black-background,intro
+9,46,hear_again,girl1,girl2,black,none,center,1,,black-background,intro
 9,47,2itthat_posk,girl1gray,girl2outline,nov8_circle,posk_blue,right,2,,black-background,Teaching
 9,48,1itsee_smope,girl1outline,girl2gray,nov8_circle,smope_red,left,0,,black-background,Teaching
 9,49,1seeit_dax,girl1outline,girl2gray,nov7_circle,dax_red,left,0,,black-background,Teaching
