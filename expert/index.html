@@ -155,7 +155,7 @@ function createTrials(data) {
         timeline.push(intro_trials);
     }
 	  
-	if (cur_trial_type == "FAM"){
+	if (cur_trial_type == "Fam"){
       //define Familiarization trials
       var fam_trials = {
         type: 'audio-button-response-flexiblelocations',
@@ -186,7 +186,7 @@ function createTrials(data) {
     }
 
 
-    if (cur_trial_type == "FAM_LWL"){
+    if (cur_trial_type == "Fam_test"){
       //define familiar test trials
       var FAM_LWL_trials = {
         type: 'audio-button-response-flexiblelocations',
@@ -247,7 +247,7 @@ function createTrials(data) {
         timeline.push(Teaching_trials);
     }
 
-    if (cur_trial_type == "ImmTest"){
+    if (cur_trial_type == "Match_test"){
       //define immediate test trials
       var ImmTest_trials = {
         type: 'audio-button-response-flexiblelocations',
@@ -276,7 +276,7 @@ function createTrials(data) {
       }
         timeline.push(ImmTest_trials);
     }
-	if (cur_trial_type == "DelayTest"){
+	if (cur_trial_type == "Nonmatch_test"){
 	      //define immediate test trials
 	      var DelayTest_trials = {
 		type: 'audio-button-response-flexiblelocations',
