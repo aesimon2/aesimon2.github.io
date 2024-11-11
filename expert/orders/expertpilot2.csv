@@ -15,15 +15,15 @@
 4,13,nicework,LfireworksBlack,RfireworksBlack,black,AG,center,1,,black-background,filler
 5,14,newtoys_listen,girl1,girl2,black,none,center,1,,black-background,intro
 5,15,1thatsee_tanzer,girl1outline,girl2gray,nov1_circle,tanzer_red,left,0,,black-background,Teaching
-5,16,2don’tknow,girl1gray,girl2outline,nov1_circle,tanzer_blue,right,2,,black-background,Teaching
+5,16,2dontknow,girl1gray,girl2outline,nov1_circle,tanzer_blue,right,2,,black-background,Teaching
 5,17,2thatit_bosa,girl1gray,girl2outline,nov2_circle,bosa_blue,right,2,,black-background,Teaching
-5,18,1haven'tseen,girl1outline,girl2gray,nov2_circle,bosa_red,left,0,,black-background,Teaching
+5,18,1haventseen,girl1outline,girl2gray,nov2_circle,bosa_red,left,0,,black-background,Teaching
 5,19,1seeit_cheem,girl1outline,girl2gray,nov3_circle,cheem_red,left,0,,black-background,Teaching
-5,20,2haven'tseen,girl1gray,girl2outline,nov3_circle,cheem_blue,right,2,,black-background,Teaching
+5,20,2haventseen,girl1gray,girl2outline,nov3_circle,cheem_blue,right,2,,black-background,Teaching
 5,21,2seethat_noop,girl1gray,girl2outline,nov4_circle,noop_blue,right,2,,black-background,Teaching
-5,22,1don’tknow,girl1outline,girl2gray,nov4_circle,noop_red,left,0,,black-background,Teaching
+5,22,1dontknow,girl1outline,girl2gray,nov4_circle,noop_red,left,0,,black-background,Teaching
 5,23,1itthat_akar,girl1outline,girl2gray,nov5_circle,akar_red,left,0,,black-background,Teaching
-5,24,2don’tknow,girl1gray,girl2outline,nov5_circle,akar_blue,right ,2,,black-background,Teaching
+5,24,2dontknow,girl1gray,girl2outline,nov5_circle,akar_blue,right ,2,,black-background,Teaching
 5,25,2itsee_wiso,girl1gray,girl2outline,nov6_circle,wiso_blue,right,2,,black-background,Teaching
 5,26,1haven’tseen,girl1outline,girl2gray,nov6_circle,wiso_red,left,0,,black-background,Teaching
 6,27,awesome_click,blank_square,blank_square,black,none,center,1,,black-background,intro
