@@ -61,7 +61,7 @@
 10,59,find_gasser,nov10_square,nov9_square,black,gasser_red,right,2,,black-background,Match_test
 10,60,find_posk,nov8_square,nov7_square,black,posk_blue,left,0,,black-background,Match_test
 10,61,where_roke,nov10_square,nov7_square,black,roke_blue,right,2,,black-background,Nonmatch_test
-10,62,find_truck,ball_square,truck_square,black,truck,right,2,,black-background,FAM_LWL
+10,62,find_truck,ball_square,truck_square,black,truck,right,2,,black-background,FAM_test
 10,63,find_vab,nov10_square,nov9_square,black,vab_blue,left,0,,black-background,Match_test
 10,64,where_smope,nov7_square,nov8_square,black,smope_red,right,2,,black-background,Nonmatch_test
 10,65,where_teebu,nov8_square,nov9_square,black,teebu_blue,right,2,,black-background,Nonmatch_test
