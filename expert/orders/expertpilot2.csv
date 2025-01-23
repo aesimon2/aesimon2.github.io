@@ -1,5 +1,5 @@
 ﻿block,trial_number,auditory_stimulus,left_image,right_image,center_image,target_label,target_side,correct_response,playing_side,background,trial_type
-1,0,,LbeachBlack,RbeachBlack,black,AG,center,1,,black-background,filler
+1,0,practiceclick,LbeachBlack,RbeachBlack,black,AG,center,1,,black-background,Fam_test
 1,1,meetnewfriends,girl1,girl2,black,none,center,1,,black-background,intro
 1,2,hi_olivia,girl1outline,girl2gray,black,red,left,0,,black-background,intro
 1,3,hi_emily,girl1gray,girl2outline,black,blue,right,2,,black-background,intro
