@@ -14,18 +14,18 @@
 4,12,find_truck,truck_square,ball_square,black,truck,left,0,,black-background,Fam_test
 4,13,where_ball,truck_square,ball_square,black,ball,right,2,,black-background,Fam_test
 4,14,nice_newtoys,LfireworksBlack,RfireworksBlack,black,AG,center,1,,black-background,transition
-5,15,1thatsee_tanzer,girl1outline,girl2gray,nov1_circle,tanzer_red,left,0,,black-background,Expert
-5,16,2dontknow,girl1gray,girl2outline,nov1_circle,tanzer_blue,right,2,,black-background,Expert
-5,17,2thatit_bosa,girl1gray,girl2outline,nov2_circle,bosa_blue,right,2,,black-background,Expert
-5,18,1haventseen,girl1outline,girl2gray,nov2_circle,bosa_red,left,0,,black-background,Expert
-5,19,1seeit_cheem,girl1outline,girl2gray,nov3_circle,cheem_red,left,0,,black-background,Expert
-5,20,2haventseen,girl1gray,girl2outline,nov3_circle,cheem_blue,right,2,,black-background,Expert
-5,21,2seethat_noop,girl1gray,girl2outline,nov4_circle,noop_blue,right,2,,black-background,Expert
-5,22,1dontknow,girl1outline,girl2gray,nov4_circle,noop_red,left,0,,black-background,Expert
-5,23,1itthat_akar,girl1outline,girl2gray,nov5_circle,akar_red,left,0,,black-background,Expert
-5,24,2dontknow,girl1gray,girl2outline,nov5_circle,akar_blue,right ,2,,black-background,Expert
-5,25,2itsee_wiso,girl1gray,girl2outline,nov6_circle,wiso_blue,right,2,,black-background,Expert
-5,26,1haventseen,girl1outline,girl2gray,nov6_circle,wiso_red,left,0,,black-background,Expert
+5,15,1thatsee_tanzer,girl1outline,girl2gray,nov1_circle,tanzer_red,left,0,,black-background,Teaching
+5,16,2dontknow,girl1gray,girl2outline,nov1_circle,tanzer_blue,right,2,,black-background,Teaching
+5,17,2thatit_bosa,girl1gray,girl2outline,nov2_circle,bosa_blue,right,2,,black-background,Teaching
+5,18,1haventseen,girl1outline,girl2gray,nov2_circle,bosa_red,left,0,,black-background,Teaching
+5,19,1seeit_cheem,girl1outline,girl2gray,nov3_circle,cheem_red,left,0,,black-background,Teaching
+5,20,2haventseen,girl1gray,girl2outline,nov3_circle,cheem_blue,right,2,,black-background,Teaching
+5,21,2seethat_noop,girl1gray,girl2outline,nov4_circle,noop_blue,right,2,,black-background,Teaching
+5,22,1dontknow,girl1outline,girl2gray,nov4_circle,noop_red,left,0,,black-background,Teaching
+5,23,1itthat_akar,girl1outline,girl2gray,nov5_circle,akar_red,left,0,,black-background,Teaching
+5,24,2dontknow,girl1gray,girl2outline,nov5_circle,akar_blue,right ,2,,black-background,Teaching
+5,25,2itsee_wiso,girl1gray,girl2outline,nov6_circle,wiso_blue,right,2,,black-background,Teaching
+5,26,1haventseen,girl1outline,girl2gray,nov6_circle,wiso_red,left,0,,black-background,Teaching
 5,27,awesome_click,blank_square,blank_square,black,none,center,1,,black-background,transition
 6,28,find_akar,nov6_square,nov5_square,black,akar_red,right,2,,black-background,Fam_test
 6,29,where_wiso,nov6_square,nov5_square,black,wiso_blue,left,0,,black-background,Fam_test
