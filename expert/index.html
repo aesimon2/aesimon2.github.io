@@ -46,7 +46,9 @@ if (trial_order == "expertpilot1") {
 	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/aesimon2/aesimon2.github.io/main/expert//orders/expertpilot2.csv'
 } else if (trial_order =="experttraining") {
 	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/aesimon2/aesimon2.github.io/main/expert//orders/experttraining.csv'
-} 
+} else if (trial_order =="expert") {
+	var publicSpreadsheetUrl = 'https://raw.githubusercontent.com/aesimon2/aesimon2.github.io/main/expert//orders/expert.csv'
+}
 
 //lwl orders
 Papa.parse(publicSpreadsheetUrl,{
@@ -125,6 +127,37 @@ function createTrials(data) {
     var cur_background = data[i]['background'];
 
         if (cur_trial_type == "intro"){
+      //define kid introduction trials
+      var intro_trials = {
+        type: 'audio-button-response-flexiblelocations',
+        stimulus: cur_stimulus,
+        choices: cur_images,
+        set_background: cur_background,
+        trial_duration: 4000,
+        //tiral_duration: 3000,
+        margin_top: ['0px','0px'],
+        margin_bottom: ['0px','0px'],
+        margin_left: ['0px','0px'],
+        margin_right: ['0px','0px'],
+        response_possible: false,
+	response_ends_trial: false,
+        data:{
+        left_image: data[i]['left_image'],
+        center_image: data[i]['center_image'],
+        right_image: data[i]['right_image'],
+        target_label: data[i]['target_label'],
+        target_side: data[i]['target_side'],
+        trial_type: data[i]['trial_type'],
+        correct_response: data[i]['correct_response'],
+        background: data[i]['background']},
+        on_finish: function(data) {
+          data.correct = data.button_pressed == data.correct_response;
+        }
+      }
+        timeline.push(intro_trials);
+    }
+    
+     if (cur_trial_type == "transition"){
       //define kid introduction trials
       var intro_trials = {
         type: 'audio-button-response-flexiblelocations',
@@ -486,7 +519,11 @@ var audio = [
 "find_cat",
 "where_sock",
 "find_cup",
-"wow_click",
+"wow_click"
+"nice_newtoys",
+"doinggreat_moretoys",
+"goodjob_again",
+"greatjob_person",
 ];
 
 var preload_audio  = [];
