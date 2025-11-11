@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experiment with jsPsych</title>
-    <!-- Updated to jsPsych 7.x -->
+    <title>Experiment with jsPsych - Debug</title>
     <script src="https://unpkg.com/jspsych@7.3.3"></script>
     <script src="https://unpkg.com/@jspsych/plugin-video-keyboard-response@1.1.2"></script>
     <script src="https://unpkg.com/@jspsych/plugin-image-button-response@1.1.2"></script>
@@ -15,7 +14,6 @@
     <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
     <link href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css" rel="stylesheet" type="text/css" />
     <style>
-        /* Your existing styles remain the same */
         html, body {
             margin: 0;
             padding: 0;
@@ -42,10 +40,34 @@
             max-width: 100%;
             max-height: 100vh;
         }
+        #debug-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: lime;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            z-index: 10000;
+            border: 2px solid lime;
+        }
     </style>
 </head>
 <body>
+    <div id="debug-info">Loading...</div>
+    
     <script>
+        const debugDiv = document.getElementById('debug-info');
+        
+        function log(msg) {
+            console.log(msg);
+            debugDiv.innerHTML += msg + '<br>';
+        }
+        
         // Initialize jsPsych
         const jsPsych = initJsPsych({
             on_finish: function() {
@@ -58,8 +80,13 @@
         const subjectNumber = urlParams.get('subject');
         const orderFile = urlParams.get('order');
 
+        log('=== URL PARAMETERS ===');
+        log('Subject: ' + (subjectNumber || 'MISSING'));
+        log('Order: ' + (orderFile || 'MISSING'));
+
         if (!subjectNumber || !orderFile) {
-            alert("Error: Subject number and order are required in the URL.");
+            log('ERROR: Missing subject or order parameter!');
+            alert("Error: Subject number and order are required in the URL.\nExample: ?subject=1&order=1");
             throw new Error("Missing subject or order information.");
         }
 
@@ -67,8 +94,12 @@
         const filename = `subject_${subjectNumber}_order_${orderFile}_${currentDate.toISOString().slice(0, 19).replace('T', '_')}.csv`;
 
         const csvFilePath = `https://aesimon2.github.io/expert2/central_data_${orderFile}.csv`;
+        
+        log('=== FILE INFO ===');
+        log('CSV URL: ' + csvFilePath);
+        log('Output filename: ' + filename);
 
-        // Helper function definitions (move these outside of Papa.parse)
+        // Helper function definitions
         function playAudio(audioFilePath) {
             if (!audioFilePath) return null;
             const audio = new Audio(audioFilePath);
@@ -93,13 +124,13 @@
 
         function createITITrial(backgroundImage) {
             return {
-                type: jsPsychImageButtonResponse,  // Change to match test trial type
+                type: jsPsychImageButtonResponse,
                 stimulus: backgroundImage,
                 stimulus_width: null,
                 stimulus_height: null,
                 maintain_aspect_ratio: true,
-                choices: ['Placeholder'],  // Needed for image-button-response
-                button_html: '<div></div>', // Invisible button
+                choices: ['Placeholder'],
+                button_html: '<div></div>',
                 css_classes: ['full-screen-stimulus'],
                 response_ends_trial: false,
                 trial_duration: 500,
@@ -120,216 +151,229 @@
         }
 
         function createTrainingTrial(trialData) {
-                return {
-                    type: jsPsychVideoKeyboardResponse,
-                    stimulus: [trialData.video_path],
-                    choices: "NO_KEYS",
-                    response_ends_trial: false,
-                    width: '100%',
-                    height: '100%',
-                    maintain_aspect_ratio: true,
-                    autoplay: true,
-                    controls: false,
-                    trial_ends_after_video: true,
-                    css_classes: ['full-screen-video'],
-                    on_start: function(trial) {
-                        // Add a style to ensure full screen video
-                        const style = document.createElement('style');
-                        style.innerHTML = `
-                            .full-screen-video {
-                                width: 100%;
-                                height: 100vh;
-                                object-fit: contain;
-                                max-width: 100%;
-                                max-height: 100vh;
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                            }
-                            .jspsych-video-keyboard-response-stimulus {
-                                width: 100%;
-                                height: 100vh;
-                                object-fit: contain;
-                                max-width: 100%;
-                                max-height: 100vh;
-                            }
-                        `;
-                        document.head.appendChild(style);
-            
-                        if (trialData.audio_path) {
-                            playAudio(trialData.audio_path);
+            return {
+                type: jsPsychVideoKeyboardResponse,
+                stimulus: [trialData.video_path],
+                choices: "NO_KEYS",
+                response_ends_trial: false,
+                width: '100%',
+                height: '100%',
+                maintain_aspect_ratio: true,
+                autoplay: true,
+                controls: false,
+                trial_ends_after_video: true,
+                css_classes: ['full-screen-video'],
+                on_start: function(trial) {
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        .full-screen-video {
+                            width: 100%;
+                            height: 100vh;
+                            object-fit: contain;
+                            max-width: 100%;
+                            max-height: 100vh;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
                         }
-                    },
-                    on_finish: function(data) {
-                        data.trial_type = 'training';
-                        data.video_path = trialData.video_path;
-                        data.audio_path = trialData.audio_path;
-                        data.subject = subjectNumber;
-                        data.order = orderFile;
-                        data.condition = trialData.condition;
+                        .jspsych-video-keyboard-response-stimulus {
+                            width: 100%;
+                            height: 100vh;
+                            object-fit: contain;
+                            max-width: 100%;
+                            max-height: 100vh;
+                        }
+                    `;
+                    document.head.appendChild(style);
+        
+                    if (trialData.audio_path) {
+                        playAudio(trialData.audio_path);
                     }
-                };
-            }
+                },
+                on_finish: function(data) {
+                    data.trial_type = 'training';
+                    data.video_path = trialData.video_path;
+                    data.audio_path = trialData.audio_path;
+                    data.subject = subjectNumber;
+                    data.order = orderFile;
+                    data.condition = trialData.condition;
+                }
+            };
+        }
 
-            function createPracticeTrial(trialData) {
-                return {
-                    type: jsPsychImageButtonResponse,
-                    stimulus: trialData.image_path,
-                    stimulus_height: "575",
-                    maintain_aspect_ratio: true,
-                    choices: ['Click here'],
-                    button_html: `<button class="jspsych-btn" 
-                        style="position: absolute; 
-                        width: ${trialData.button_width}px;
-                        height: ${trialData.button_height}px;
-                        top: ${trialData.button_position_y}px; 
-                        left: ${trialData.button_position_x}px;
-                        opacity: 0;
-                        background-color: transparent !important;
-                        border: none !important;
-                        outline: none !important;
-                        box-shadow: none !important;"></button>`,
-                    css_classes: ['custom-trial', 'full-screen-stimulus'],
-                    response_ends_trial: true,
-                    on_start: function(trial) {
-                        if (trialData.audio_path) {
-                            playAudio(trialData.audio_path);
-                        }
-                        const style = document.createElement('style');
-                        style.innerHTML = `
-                            .custom-trial button.jspsych-btn {
-                                opacity: 0 !important;
-                                background-color: transparent !important;
-                                border: none !important;
-                                outline: none !important;
-                                box-shadow: none !important;
-                            }
-                        `;
-                        document.head.appendChild(style);
-                    },
-                    on_finish: function(data) {
-                        data.trial_type = 'practice';
-                        data.image_path = trialData.image_path;
-                        data.button_position = {
-                            x: trialData.button_position_x,
-                            y: trialData.button_position_y
-                        };
-                        data.subject = subjectNumber;
-                        data.order = orderFile;
-                        data.condition = trialData.condition;
+        function createPracticeTrial(trialData) {
+            return {
+                type: jsPsychImageButtonResponse,
+                stimulus: trialData.image_path,
+                stimulus_height: "575",
+                maintain_aspect_ratio: true,
+                choices: ['Click here'],
+                button_html: `<button class="jspsych-btn" 
+                    style="position: absolute; 
+                    width: ${trialData.button_width}px;
+                    height: ${trialData.button_height}px;
+                    top: ${trialData.button_position_y}px; 
+                    left: ${trialData.button_position_x}px;
+                    opacity: 0;
+                    background-color: transparent !important;
+                    border: none !important;
+                    outline: none !important;
+                    box-shadow: none !important;"></button>`,
+                css_classes: ['custom-trial', 'full-screen-stimulus'],
+                response_ends_trial: true,
+                on_start: function(trial) {
+                    if (trialData.audio_path) {
+                        playAudio(trialData.audio_path);
                     }
-                };
-            }
-            
-            function createTestTrial(trialData) {
-                return {
-                    type: jsPsychImageButtonResponse,
-                    stimulus: trialData.background_image,
-                    stimulus_width: null,
-                    stimulus_height: null,
-                    maintain_aspect_ratio: true,
-                    choices: ['Left', 'Right'],
-                    button_html: [
-                        `<img src="${trialData.overlay_image_1}" style="position: absolute; left: 10%; bottom: 20%; max-height: 40vh; object-fit: contain;">`,
-                        `<img src="${trialData.overlay_image_2}" style="position: absolute; right: 10%; bottom: 20%; max-height: 40vh; object-fit: contain;">`
-                    ],
-                    response_ends_trial: true,
-                    css_classes: ['full-screen-stimulus'],
-                    on_start: function(trial) {
-                        // Ensure audio is added as a property of the trial
-                        trial.audio_path = trialData.audio_path;
-                        trial.audio_start_time = null;
-                        trial.audio_end_time = null;
-                    },
-                    on_load: function() {
-                        const trial = this;
-                        const buttons = document.querySelectorAll('.jspsych-image-button-response-button');
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        .custom-trial button.jspsych-btn {
+                            opacity: 0 !important;
+                            background-color: transparent !important;
+                            border: none !important;
+                            outline: none !important;
+                            box-shadow: none !important;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                },
+                on_finish: function(data) {
+                    data.trial_type = 'practice';
+                    data.image_path = trialData.image_path;
+                    data.button_position = {
+                        x: trialData.button_position_x,
+                        y: trialData.button_position_y
+                    };
+                    data.subject = subjectNumber;
+                    data.order = orderFile;
+                    data.condition = trialData.condition;
+                }
+            };
+        }
+        
+        function createTestTrial(trialData) {
+            return {
+                type: jsPsychImageButtonResponse,
+                stimulus: trialData.background_image,
+                stimulus_width: null,
+                stimulus_height: null,
+                maintain_aspect_ratio: true,
+                choices: ['Left', 'Right'],
+                button_html: [
+                    `<img src="${trialData.overlay_image_1}" style="position: absolute; left: 10%; bottom: 20%; max-height: 40vh; object-fit: contain;">`,
+                    `<img src="${trialData.overlay_image_2}" style="position: absolute; right: 10%; bottom: 20%; max-height: 40vh; object-fit: contain;">`
+                ],
+                response_ends_trial: true,
+                css_classes: ['full-screen-stimulus'],
+                on_start: function(trial) {
+                    trial.audio_path = trialData.audio_path;
+                    trial.audio_start_time = null;
+                    trial.audio_end_time = null;
+                },
+                on_load: function() {
+                    const trial = this;
+                    const buttons = document.querySelectorAll('.jspsych-image-button-response-button');
+                    
+                    buttons.forEach(button => {
+                        button.style.pointerEvents = 'none';
+                        button.style.cursor = 'not-allowed';
+                    });
+        
+                    if (trial.audio_path) {
+                        const audio = new Audio(trial.audio_path);
                         
-                        // Disable buttons initially
-                        buttons.forEach(button => {
-                            button.style.pointerEvents = 'none';
-                            button.style.cursor = 'not-allowed';
-                        });
-            
-                        // Play audio if path exists
-                        if (trial.audio_path) {
-                            // Create audio element
-                            const audio = new Audio(trial.audio_path);
-                            
-                            audio.oncanplaythrough = () => {
-                                audio.play()
-                                    .then(() => {
-                                        trial.audio_start_time = performance.now();
-                                    })
-                                    .catch(error => {
-                                        console.error('Audio play failed:', error);
-                                    });
-                            };
-            
-                            audio.onended = () => {
-                                // Enable buttons when audio ends
-                                buttons.forEach(button => {
-                                    button.style.pointerEvents = 'auto';
-                                    button.style.cursor = 'pointer';
+                        audio.oncanplaythrough = () => {
+                            audio.play()
+                                .then(() => {
+                                    trial.audio_start_time = performance.now();
+                                })
+                                .catch(error => {
+                                    console.error('Audio play failed:', error);
                                 });
-                                
-                                trial.audio_end_time = performance.now();
-                            };
-            
-                            audio.onerror = (e) => {
-                                console.error('Audio error:', e);
-                                // Enable buttons even if audio fails
-                                buttons.forEach(button => {
-                                    button.style.pointerEvents = 'auto';
-                                    button.style.cursor = 'pointer';
-                                });
-                            };
-                        } else {
-                            // If no audio, enable buttons immediately
+                        };
+        
+                        audio.onended = () => {
                             buttons.forEach(button => {
                                 button.style.pointerEvents = 'auto';
                                 button.style.cursor = 'pointer';
                             });
-                        }
-                    },
-                    on_finish: function(data) {
-                        data.trial_type = 'test';
-                        data.correct = (data.response === 0 && trialData.correct_response === 'button1') ||
-                                     (data.response === 1 && trialData.correct_response === 'button2');
-                        data.background_image = trialData.background_image;
-                        data.overlay_image_1 = trialData.overlay_image_1;
-                        data.overlay_image_2 = trialData.overlay_image_2;
-                        data.expected_response = trialData.correct_response;
-                        
-                        data.audio_path = this.audio_path;
-                        data.audio_start_time = this.audio_start_time;
-                        data.audio_end_time = this.audio_end_time;
-                        
-                        if (data.rt !== null && this.audio_end_time && this.audio_start_time) {
-                            data.rt_audio_adjusted = data.rt - (this.audio_end_time - this.audio_start_time);
-                        }
-                        data.subject = subjectNumber;
-                        data.order = orderFile;
-                        data.condition = trialData.condition;
+                            
+                            trial.audio_end_time = performance.now();
+                        };
+        
+                        audio.onerror = (e) => {
+                            console.error('Audio error:', e);
+                            buttons.forEach(button => {
+                                button.style.pointerEvents = 'auto';
+                                button.style.cursor = 'pointer';
+                            });
+                        };
+                    } else {
+                        buttons.forEach(button => {
+                            button.style.pointerEvents = 'auto';
+                            button.style.cursor = 'pointer';
+                        });
                     }
-                };
-            }
-
+                },
+                on_finish: function(data) {
+                    data.trial_type = 'test';
+                    data.correct = (data.response === 0 && trialData.correct_response === 'button1') ||
+                                 (data.response === 1 && trialData.correct_response === 'button2');
+                    data.background_image = trialData.background_image;
+                    data.overlay_image_1 = trialData.overlay_image_1;
+                    data.overlay_image_2 = trialData.overlay_image_2;
+                    data.expected_response = trialData.correct_response;
+                    
+                    data.audio_path = this.audio_path;
+                    data.audio_start_time = this.audio_start_time;
+                    data.audio_end_time = this.audio_end_time;
+                    
+                    if (data.rt !== null && this.audio_end_time && this.audio_start_time) {
+                        data.rt_audio_adjusted = data.rt - (this.audio_end_time - this.audio_start_time);
+                    }
+                    data.subject = subjectNumber;
+                    data.order = orderFile;
+                    data.condition = trialData.condition;
+                }
+            };
+        }
 
         // Main Papa.parse call
+        log('=== ATTEMPTING CSV LOAD ===');
+        
         Papa.parse(csvFilePath, {
             download: true,
             header: true,
             dynamicTyping: true,
+            skipEmptyLines: true,
             complete: function(results) {
+                log('=== CSV LOAD COMPLETE ===');
+                log('Number of rows: ' + results.data.length);
+                log('Number of errors: ' + results.errors.length);
+                
                 if (results.errors.length > 0) {
-                    console.error('CSV parsing errors:', results.errors);
-                    alert('Error loading experiment data');
+                    log('=== ERRORS FOUND ===');
+                    results.errors.forEach((err, i) => {
+                        log(`Error ${i+1}: ${err.type} - ${err.message} (row ${err.row})`);
+                    });
+                    alert('CSV parsing errors found! Check the debug info on screen.');
                     return;
+                }
+                
+                log('=== FIRST 3 ROWS ===');
+                results.data.slice(0, 3).forEach((row, i) => {
+                    log(`Row ${i}: ${JSON.stringify(row)}`);
+                });
+                
+                log('=== Column names ===');
+                if (results.data.length > 0) {
+                    log(Object.keys(results.data[0]).join(', '));
                 }
                 
                 // Get all media files to preload
                 const mediaFiles = getMediaFiles(results.data);
+                log('=== MEDIA FILES TO PRELOAD ===');
+                log('Total files: ' + mediaFiles.length);
                 
                 // Create preload trial
                 const preload = {
@@ -346,10 +390,8 @@
                     }
                 };
                 
-                // Create timeline with preload as first trial
                 const timeline = [preload];
                 
-                // Add welcome trial
                 const welcome = {
                     type: jsPsychFullscreen,
                     message: "Welcome! Click 'Start' to Play.",
@@ -358,9 +400,9 @@
                 };
                 timeline.push(welcome);
             
-            let lastTestBackground = null;
+                let lastTestBackground = null;
         
-            results.data.forEach((trialData, index) => {
+                results.data.forEach((trialData, index) => {
                     const trialCreators = {
                         'training': createTrainingTrial,
                         'practice': createPracticeTrial,
@@ -392,12 +434,23 @@
                 };
                 timeline.push(save_data);
 
-                // Run the experiment
+                log('=== STARTING EXPERIMENT ===');
+                log('Total timeline trials: ' + timeline.length);
+                
+                // Hide debug div after 3 seconds if successful
+                setTimeout(() => {
+                    debugDiv.style.display = 'none';
+                }, 3000);
+
                 jsPsych.run(timeline);
             },
             error: function(error) {
-                console.error('CSV loading error:', error);
-                alert('Error loading experiment data');
+                log('=== FATAL ERROR ===');
+                log('Error type: ' + error.name);
+                log('Error message: ' + error.message);
+                log('This usually means the CSV file could not be downloaded.');
+                log('Check: 1) File exists at URL, 2) No CORS issues, 3) File is accessible');
+                alert('Fatal error loading CSV! Check debug info.');
             }
         });
     </script>
