@@ -1,11 +1,11 @@
 trial_type,audio_path,video_path,image_path,button_position_x,button_position_y,button_width,button_height,button1_position_x,button1_position_y,button1_width,button1_height,button2_position_x,button2_position_y,button2_width,button2_height,background_image,overlay_image_1,overlay_image_2,correct_response,condition
-practice,audio/click_zookeeper.wav,,image/intro_pic.png,0,0,540,810,,,,,,,,,,,,,
-practice,audio/silence.wav,,image/giraffe_check.png,810,405,1080,810,,,,,,,,,,,,,
-practice,audio/click_mechanic.wav,,image/intro_pic.png,1350,0,810,1620,,,,,,,,,,,,,
-practice,audio/silence.wav,,image/helicopter_check.png,270,405,1080,810,,,,,,,,,,,,,
-check,audio/who_knows_more.wav,,image/lion.png,,,,,0,0,810,1620,1350,0,810,1620,,,,,
-check,audio/who_knows_more.wav,,image/car.png,,,,,0,0,810,1620,1350,0,810,1620,,,,,
-practice,audio/silence.wav,,image/break.png,810,405,540,540,,,,,,,,,,,,,
+practice,audio/click_zookeeper.wav,,image/intro_pic.png,0,0,270,810,,,,,,,,,,,,,
+practice,audio/silence.wav,,image/giraffe_check.png,405,202,540,405,,,,,,,,,,,,,
+practice,audio/click_mechanic.wav,,image/intro_pic.png,810,0,270,810,,,,,,,,,,,,,
+practice,audio/silence.wav,,image/helicopter_check.png,,,,,,,,,,,,,,,,,
+check,audio/who_knows_more.wav,,image/lion.png,,,,,0,0,540,810,810,0,270,810,,,,,
+check,audio/who_knows_more.wav,,image/car.png,,,,,0,0,540,810,810,0,270,810,,,,,
+practice,audio/silence.wav,,image/break.png,202,405,405,405,,,,,,,,,,,,,
 test,audio/where_truck.wav,,,,,,,,,,,,,,,image/table.png,image/truck.png,image/bear.png,button1,pilot
 test,audio/find_dax.wav,,,,,,,,,,,,,,,image/table.png,image/A1.png,image/V1.png,button1,pilot
 test,audio/find_gasser.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/A2.png,button2,pilot
@@ -16,5 +16,5 @@ test,audio/find_vab.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/A1.png,
 test,audio/where_smope.wav,,,,,,,,,,,,,,,image/table.png,image/A1.png,image/V1.png,button2,pilot
 test,audio/where_teebu.wav,,,,,,,,,,,,,,,image/table.png,image/V1.png,image/A2.png,button2,pilot
 test,audio/where_fisp.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/A1.png,button1,pilot
-check,audio/silence.wav,,image/V3.png,,,,,0,0,810,1620,1350,0,810,1620,,,,,
-check,audio/silence.wav,,image/A3.png,,,,,0,0,810,1620,1350,0,810,1620,,,,,
+check,audio/silence.wav,,image/V3.png,,,,,0,0,540,810,810,0,270,810,,,,,
+check,audio/silence.wav,,image/A3.png,,,,,0,0,540,810,810,0,270,810,,,,,
