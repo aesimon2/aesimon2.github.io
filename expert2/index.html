@@ -68,6 +68,21 @@
             debugDiv.innerHTML += msg + '<br>';
         }
         
+        // iOS Audio Context Fix - CRITICAL for iPad
+        let audioContextInitialized = false;
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function initializeAudioContext() {
+            if (!audioContextInitialized) {
+                audioContext.resume().then(() => {
+                    log('✓ Audio context initialized for iOS');
+                    audioContextInitialized = true;
+                }).catch(err => {
+                    log('✗ Audio context initialization failed: ' + err);
+                });
+            }
+        }
+        
         // Initialize jsPsych
         const jsPsych = initJsPsych({
             on_finish: function() {
@@ -99,12 +114,36 @@
         log('CSV URL: ' + csvFilePath);
         log('Output filename: ' + filename);
 
-        // Helper function definitions
+        // IMPROVED: iOS-compatible audio playback function
         function playAudio(audioFilePath) {
-            if (!audioFilePath) return null;
-            const audio = new Audio(audioFilePath);
-            audio.onerror = () => console.error(`Error loading audio: ${audioFilePath}`);
-            return audio.play().catch(e => console.error('Audio playback failed:', e));
+            if (!audioFilePath) return Promise.resolve();
+            
+            return new Promise((resolve, reject) => {
+                const audio = new Audio(audioFilePath);
+                
+                // iOS needs these properties set
+                audio.preload = 'auto';
+                audio.playsInline = true;
+                
+                audio.addEventListener('canplaythrough', () => {
+                    audio.play()
+                        .then(() => {
+                            log('✓ Audio playing: ' + audioFilePath.split('/').pop());
+                            resolve(audio);
+                        })
+                        .catch(e => {
+                            log('✗ Audio play failed: ' + e.message);
+                            reject(e);
+                        });
+                }, { once: true });
+                
+                audio.addEventListener('error', (e) => {
+                    log('✗ Audio load error: ' + audioFilePath);
+                    reject(e);
+                });
+                
+                audio.load();
+            });
         }
 
         function getMediaFiles(data) {
@@ -183,11 +222,24 @@
                             max-width: 100%;
                             max-height: 100vh;
                         }
+                        video {
+                            -webkit-playsinline: true;
+                            playsinline: true;
+                        }
                     `;
                     document.head.appendChild(style);
-        
+                },
+                on_load: function() {
+                    // Play audio after video starts playing (iOS fix)
                     if (trialData.audio_path) {
-                        playAudio(trialData.audio_path);
+                        const video = document.querySelector('video');
+                        if (video) {
+                            video.addEventListener('playing', () => {
+                                playAudio(trialData.audio_path);
+                            }, { once: true });
+                        } else {
+                            playAudio(trialData.audio_path);
+                        }
                     }
                 },
                 on_finish: function(data) {
@@ -222,9 +274,6 @@
                 css_classes: ['custom-trial', 'full-screen-stimulus'],
                 response_ends_trial: true,
                 on_start: function(trial) {
-                    if (trialData.audio_path) {
-                        playAudio(trialData.audio_path);
-                    }
                     const style = document.createElement('style');
                     style.innerHTML = `
                         .custom-trial button.jspsych-btn {
@@ -236,6 +285,12 @@
                         }
                     `;
                     document.head.appendChild(style);
+                },
+                on_load: function() {
+                    // Play audio when trial loads
+                    if (trialData.audio_path) {
+                        playAudio(trialData.audio_path);
+                    }
                 },
                 on_finish: function(data) {
                     data.trial_type = 'practice';
@@ -251,103 +306,100 @@
             };
         }
         
-      function createCheckTrial(trialData) {
-    // Debug logging
-    console.log('=== CHECK TRIAL DATA ===');
-    console.log('Button 1 data:', {
-        width: trialData.button1_width,
-        height: trialData.button1_height,
-        x: trialData.button1_position_x,
-        y: trialData.button1_position_y
-    });
-    console.log('Button 2 data:', {
-        width: trialData.button2_width,
-        height: trialData.button2_height,
-        x: trialData.button2_position_x,
-        y: trialData.button2_position_y
-    });
-
-    return {
-        type: jsPsychImageButtonResponse,
-        stimulus: trialData.image_path,
-        stimulus_height: "810",
-        maintain_aspect_ratio: true,
-        choices: ['Button 1', 'Button 2'],
-        button_html: [
-            // Button 1 (index 0)
-            `<button class="jspsych-btn check-button-0" 
-                style="position: absolute; 
-                width: ${trialData.button1_width || 100}px;
-                height: ${trialData.button1_height || 100}px;
-                top: ${trialData.button1_position_y || 0}px; 
-                left: ${trialData.button1_position_x || 0}px;
-                opacity: 0;
-                background-color: transparent !important;
-                border: none !important;
-                outline: none !important;
-                box-shadow: none !important;
-                z-index: 1000;"></button>`,
-            // Button 2 (index 1)
-            `<button class="jspsych-btn check-button-1" 
-                style="position: absolute; 
-                width: ${trialData.button2_width || 100}px;
-                height: ${trialData.button2_height || 100}px;
-                top: ${trialData.button2_position_y || 0}px; 
-                left: ${trialData.button2_position_x || 200}px;
-                opacity: 0;
-                background-color: transparent !important;
-                border: none !important;
-                outline: none !important;
-                box-shadow: none !important;
-                z-index: 1000;"></button>`
-        ],
-        css_classes: ['custom-trial', 'full-screen-stimulus'],
-        response_ends_trial: true,
-        on_start: function(trial) {
-            if (trialData.audio_path) {
-                playAudio(trialData.audio_path);
-            }
-            const style = document.createElement('style');
-            style.innerHTML = `
-                .custom-trial button.jspsych-btn {
-                    opacity: 0 !important;
-                    background-color: transparent !important;
-                    border: none !important;
-                    outline: none !important;
-                    box-shadow: none !important;
-                }
-            `;
-            document.head.appendChild(style);
-        },
-        on_load: function() {
-            // Check if buttons are actually in the DOM
-            const buttons = document.querySelectorAll('.jspsych-btn');
-            console.log('Number of buttons found:', buttons.length);
-            buttons.forEach((btn, i) => {
-                console.log(`Button ${i}:`, btn);
-                console.log(`Button ${i} styles:`, window.getComputedStyle(btn));
+        function createCheckTrial(trialData) {
+            console.log('=== CHECK TRIAL DATA ===');
+            console.log('Button 1 data:', {
+                width: trialData.button1_width,
+                height: trialData.button1_height,
+                x: trialData.button1_position_x,
+                y: trialData.button1_position_y
             });
-        },
-        on_finish: function(data) {
-            data.trial_type = 'check';
-            data.image_path = trialData.image_path;
-            data.button_pressed = data.response === 0 ? 'button1' : 'button2';
-            data.button_position = {
-                button1: {
-                    x: trialData.button1_position_x,
-                    y: trialData.button1_position_y
+            console.log('Button 2 data:', {
+                width: trialData.button2_width,
+                height: trialData.button2_height,
+                x: trialData.button2_position_x,
+                y: trialData.button2_position_y
+            });
+
+            return {
+                type: jsPsychImageButtonResponse,
+                stimulus: trialData.image_path,
+                stimulus_height: "810",
+                maintain_aspect_ratio: true,
+                choices: ['Button 1', 'Button 2'],
+                button_html: [
+                    `<button class="jspsych-btn check-button-0" 
+                        style="position: absolute; 
+                        width: ${trialData.button1_width || 100}px;
+                        height: ${trialData.button1_height || 100}px;
+                        top: ${trialData.button1_position_y || 0}px; 
+                        left: ${trialData.button1_position_x || 0}px;
+                        opacity: 0;
+                        background-color: transparent !important;
+                        border: none !important;
+                        outline: none !important;
+                        box-shadow: none !important;
+                        z-index: 1000;"></button>`,
+                    `<button class="jspsych-btn check-button-1" 
+                        style="position: absolute; 
+                        width: ${trialData.button2_width || 100}px;
+                        height: ${trialData.button2_height || 100}px;
+                        top: ${trialData.button2_position_y || 0}px; 
+                        left: ${trialData.button2_position_x || 200}px;
+                        opacity: 0;
+                        background-color: transparent !important;
+                        border: none !important;
+                        outline: none !important;
+                        box-shadow: none !important;
+                        z-index: 1000;"></button>`
+                ],
+                css_classes: ['custom-trial', 'full-screen-stimulus'],
+                response_ends_trial: true,
+                on_start: function(trial) {
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        .custom-trial button.jspsych-btn {
+                            opacity: 0 !important;
+                            background-color: transparent !important;
+                            border: none !important;
+                            outline: none !important;
+                            box-shadow: none !important;
+                        }
+                    `;
+                    document.head.appendChild(style);
                 },
-                button2: {
-                    x: trialData.button2_position_x,
-                    y: trialData.button2_position_y
+                on_load: function() {
+                    const buttons = document.querySelectorAll('.jspsych-btn');
+                    console.log('Number of buttons found:', buttons.length);
+                    buttons.forEach((btn, i) => {
+                        console.log(`Button ${i}:`, btn);
+                    });
+                    
+                    // Play audio when trial loads
+                    if (trialData.audio_path) {
+                        playAudio(trialData.audio_path);
+                    }
+                },
+                on_finish: function(data) {
+                    data.trial_type = 'check';
+                    data.image_path = trialData.image_path;
+                    data.button_pressed = data.response === 0 ? 'button1' : 'button2';
+                    data.button_position = {
+                        button1: {
+                            x: trialData.button1_position_x,
+                            y: trialData.button1_position_y
+                        },
+                        button2: {
+                            x: trialData.button2_position_x,
+                            y: trialData.button2_position_y
+                        }
+                    };
+                    data.subject = subjectNumber;
+                    data.order = orderFile;
+                    data.condition = trialData.condition;
                 }
             };
-            data.subject = subjectNumber;
-            data.order = orderFile;
-            data.condition = trialData.condition;
         }
-    };
-}
         
         function createTestTrial(trialData) {
             return {
@@ -367,6 +419,7 @@
                     trial.audio_path = trialData.audio_path;
                     trial.audio_start_time = null;
                     trial.audio_end_time = null;
+                    trial.audioElement = null;
                 },
                 on_load: function() {
                     const trial = this;
@@ -378,34 +431,28 @@
                     });
         
                     if (trial.audio_path) {
-                        const audio = new Audio(trial.audio_path);
+                        trial.audio_start_time = performance.now();
                         
-                        audio.oncanplaythrough = () => {
-                            audio.play()
-                                .then(() => {
-                                    trial.audio_start_time = performance.now();
-                                })
-                                .catch(error => {
-                                    console.error('Audio play failed:', error);
+                        playAudio(trial.audio_path)
+                            .then(audio => {
+                                trial.audioElement = audio;
+                                
+                                audio.addEventListener('ended', () => {
+                                    trial.audio_end_time = performance.now();
+                                    buttons.forEach(button => {
+                                        button.style.pointerEvents = 'auto';
+                                        button.style.cursor = 'pointer';
+                                    });
                                 });
-                        };
-        
-                        audio.onended = () => {
-                            buttons.forEach(button => {
-                                button.style.pointerEvents = 'auto';
-                                button.style.cursor = 'pointer';
+                            })
+                            .catch(error => {
+                                console.error('Audio play failed:', error);
+                                // Enable buttons even if audio fails
+                                buttons.forEach(button => {
+                                    button.style.pointerEvents = 'auto';
+                                    button.style.cursor = 'pointer';
+                                });
                             });
-                            
-                            trial.audio_end_time = performance.now();
-                        };
-        
-                        audio.onerror = (e) => {
-                            console.error('Audio error:', e);
-                            buttons.forEach(button => {
-                                button.style.pointerEvents = 'auto';
-                                button.style.cursor = 'pointer';
-                            });
-                        };
                     } else {
                         buttons.forEach(button => {
                             button.style.pointerEvents = 'auto';
@@ -468,12 +515,10 @@
                     log(Object.keys(results.data[0]).join(', '));
                 }
                 
-                // Get all media files to preload
                 const mediaFiles = getMediaFiles(results.data);
                 log('=== MEDIA FILES TO PRELOAD ===');
                 log('Total files: ' + mediaFiles.length);
                 
-                // Create preload trial
                 const preload = {
                     type: jsPsychPreload,
                     images: mediaFiles.filter(file => file && file.match(/\.(jpg|jpeg|png|gif|bmp)$/i)),
@@ -490,11 +535,16 @@
                 
                 const timeline = [preload];
                 
+                // CRITICAL: Initialize audio context on user interaction (fullscreen button click)
                 const welcome = {
                     type: jsPsychFullscreen,
                     message: "Welcome! Click 'Start' to Play.",
                     button_label: "Start",
-                    delay_after: 250
+                    delay_after: 250,
+                    on_finish: function() {
+                        // Initialize audio context on first user interaction
+                        initializeAudioContext();
+                    }
                 };
                 timeline.push(welcome);
             
@@ -504,7 +554,7 @@
                     const trialCreators = {
                         'training': createTrainingTrial,
                         'practice': createPracticeTrial,
-                        'check':createCheckTrial,
+                        'check': createCheckTrial,
                         'test': createTestTrial
                     };
                     
@@ -536,7 +586,6 @@
                 log('=== STARTING EXPERIMENT ===');
                 log('Total timeline trials: ' + timeline.length);
                 
-                // Hide debug div after 3 seconds if successful
                 setTimeout(() => {
                     debugDiv.style.display = 'none';
                 }, 3000);
