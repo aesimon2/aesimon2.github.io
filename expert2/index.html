@@ -214,9 +214,9 @@
                     height: ${trialData.button_height}px;
                     top: ${trialData.button_position_y}px; 
                     left: ${trialData.button_position_x}px;
-                    opacity: 0;
-                    background-color: white !important;
-                    border: none !important;
+                    opacity: 1;
+                    background-color: transparent !important;
+                    border: 2px solid darkred !important;
                     outline: none !important;
                     box-shadow: none !important;"></button>`,
                 css_classes: ['custom-trial', 'full-screen-stimulus'],
@@ -228,9 +228,9 @@
                     const style = document.createElement('style');
                     style.innerHTML = `
                         .custom-trial button.jspsych-btn {
-                            opacity: 0 !important;
-                            background-color: white !important;
-                            border: none !important;
+                            opacity: 1 !important;
+                            background-color: transparent !important;
+                            border: 2px solid darkred !important;
                             outline: none !important;
                             box-shadow: none !important;
                         }
@@ -278,8 +278,8 @@
                 top: ${buttonData.y}px; 
                 left: ${buttonData.x}px;
                 opacity: 0;
-                background-color: white !important;
-                border: none !important;
+                background-color: transparent !important;
+                border: 2px solid darkred !important;
                 outline: none !important;
                 box-shadow: none !important;"></button>`;
         },
@@ -292,9 +292,9 @@
             const style = document.createElement('style');
             style.innerHTML = `
                 .custom-trial button.jspsych-btn {
-                    opacity: 0 !important;
-                    background-color: white !important;
-                    border: none !important;
+                    opacity: 1 !important;
+                    background-color: transparent !important;
+                    border: 2px solid darkred !important;
                     outline: none !important;
                     box-shadow: none !important;
                 }
