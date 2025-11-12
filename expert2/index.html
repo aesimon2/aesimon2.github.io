@@ -251,7 +251,22 @@
             };
         }
         
-        function createCheckTrial(trialData) {
+       function createCheckTrial(trialData) {
+    // Debug logging
+    console.log('=== CHECK TRIAL DATA ===');
+    console.log('Button 1 data:', {
+        width: trialData.button1_width,
+        height: trialData.button1_height,
+        x: trialData.button1_position_x,
+        y: trialData.button1_position_y
+    });
+    console.log('Button 2 data:', {
+        width: trialData.button2_width,
+        height: trialData.button2_height,
+        x: trialData.button2_position_x,
+        y: trialData.button2_position_y
+    });
+
     return {
         type: jsPsychImageButtonResponse,
         stimulus: trialData.image_path,
@@ -260,18 +275,20 @@
         choices: ['Button 1', 'Button 2'],
         button_html: (choice, choice_index) => {
             const buttonData = choice_index === 0 ? {
-                width: trialData.button1_width,
-                height: trialData.button1_height,
-                x: trialData.button1_position_x,
-                y: trialData.button1_position_y
+                width: trialData.button1_width || 100,  // Default fallback
+                height: trialData.button1_height || 100,
+                x: trialData.button1_position_x || 0,
+                y: trialData.button1_position_y || 0
             } : {
-                width: trialData.button2_width,
-                height: trialData.button2_height,
-                x: trialData.button2_position_x,
-                y: trialData.button2_position_y
+                width: trialData.button2_width || 100,
+                height: trialData.button2_height || 100,
+                x: trialData.button2_position_x || 200,
+                y: trialData.button2_position_y || 0
             };
             
-            return `<button class="jspsych-btn" 
+            console.log(`Button ${choice_index} HTML data:`, buttonData);
+            
+            return `<button class="jspsych-btn check-button-${choice_index}" 
                 style="position: absolute; 
                 width: ${buttonData.width}px;
                 height: ${buttonData.height}px;
@@ -281,7 +298,8 @@
                 background-color: transparent !important;
                 border: 2px solid darkred !important;
                 outline: none !important;
-                box-shadow: none !important;"></button>`;
+                box-shadow: none !important;
+                z-index: 1000;">${choice}</button>`;
         },
         css_classes: ['custom-trial', 'full-screen-stimulus'],
         response_ends_trial: true,
@@ -301,10 +319,19 @@
             `;
             document.head.appendChild(style);
         },
+        on_load: function() {
+            // Check if buttons are actually in the DOM
+            const buttons = document.querySelectorAll('.jspsych-btn');
+            console.log('Number of buttons found:', buttons.length);
+            buttons.forEach((btn, i) => {
+                console.log(`Button ${i}:`, btn);
+                console.log(`Button ${i} styles:`, window.getComputedStyle(btn));
+            });
+        },
         on_finish: function(data) {
             data.trial_type = 'check';
             data.image_path = trialData.image_path;
-            data.button_pressed = data.response === 0 ? 'button1' : 'button2'; // Track which button
+            data.button_pressed = data.response === 0 ? 'button1' : 'button2';
             data.button_position = {
                 button1: {
                     x: trialData.button1_position_x,

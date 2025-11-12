@@ -4,7 +4,7 @@ practice,audio/silence.wav,,image/giraffe_check.png,450,190,540,405,,,,,,,,,,,,,
 practice,audio/click_mechanic.wav,,image/intro_pic.png,810,0,270,800,,,,,,,,,,,,,
 practice,audio/silence.wav,,image/helicopter_check.png,100,190,540,405,,,,,,,,,,,,,
 check,audio/who_knows_more.wav,,image/lion.png,,,,,0,0,405,800,675,0,405,800,,,,,
-check,audio/who_knows_more.wav,,image/car.png,,,,,0,0,405,800,675,0,270,800,,,,,
+check,audio/who_knows_more.wav,,image/car.png,,,,,0,0,405,800,675,0,405,800,,,,,
 practice,audio/silence.wav,,image/break.png,0,0,1080,810,,,,,,,,,,,,,
 test,audio/where_truck.wav,,,,,,,,,,,,,,,image/table.png,image/truck.png,image/bear.png,button1,pilot
 test,audio/find_dax.wav,,,,,,,,,,,,,,,image/table.png,image/A1.png,image/V1.png,button1,pilot
