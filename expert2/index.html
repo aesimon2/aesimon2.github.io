@@ -214,9 +214,9 @@
                     height: ${trialData.button_height}px;
                     top: ${trialData.button_position_y}px; 
                     left: ${trialData.button_position_x}px;
-                    opacity: 1;
+                    opacity: 0;
                     background-color: transparent !important;
-                    border: 2px solid darkred !important;
+                    border: none !important;
                     outline: none !important;
                     box-shadow: none !important;"></button>`,
                 css_classes: ['custom-trial', 'full-screen-stimulus'],
@@ -228,9 +228,9 @@
                     const style = document.createElement('style');
                     style.innerHTML = `
                         .custom-trial button.jspsych-btn {
-                            opacity: 1 !important;
+                            opacity: 0 !important;
                             background-color: transparent !important;
-                            border: 2px solid darkred !important;
+                            border: none !important;
                             outline: none !important;
                             box-shadow: none !important;
                         }
@@ -281,12 +281,12 @@
                 height: ${trialData.button1_height || 100}px;
                 top: ${trialData.button1_position_y || 0}px; 
                 left: ${trialData.button1_position_x || 0}px;
-                opacity: 1;
+                opacity: 0;
                 background-color: transparent !important;
-                border: 2px solid darkred !important;
+                border: none !important;
                 outline: none !important;
                 box-shadow: none !important;
-                z-index: 1000;">Button 1</button>`,
+                z-index: 1000;"></button>`,
             // Button 2 (index 1)
             `<button class="jspsych-btn check-button-1" 
                 style="position: absolute; 
@@ -294,12 +294,12 @@
                 height: ${trialData.button2_height || 100}px;
                 top: ${trialData.button2_position_y || 0}px; 
                 left: ${trialData.button2_position_x || 200}px;
-                opacity: 1;
+                opacity: 0;
                 background-color: transparent !important;
-                border: 2px solid darkred !important;
+                border: none !important;
                 outline: none !important;
                 box-shadow: none !important;
-                z-index: 1000;">Button 2</button>`
+                z-index: 1000;"></button>`
         ],
         css_classes: ['custom-trial', 'full-screen-stimulus'],
         response_ends_trial: true,
@@ -310,9 +310,9 @@
             const style = document.createElement('style');
             style.innerHTML = `
                 .custom-trial button.jspsych-btn {
-                    opacity: 1 !important;
+                    opacity: 0 !important;
                     background-color: transparent !important;
-                    border: 2px solid darkred !important;
+                    border: none !important;
                     outline: none !important;
                     box-shadow: none !important;
                 }
@@ -358,8 +358,8 @@
                 maintain_aspect_ratio: true,
                 choices: ['Left', 'Right'],
                 button_html: [
-                    `<img src="${trialData.overlay_image_1}" style="position: absolute; left: 10%; bottom: 20%; max-height: 35vh; object-fit: contain;">`,
-                    `<img src="${trialData.overlay_image_2}" style="position: absolute; right: 10%; bottom: 20%; max-height: 35vh; object-fit: contain;">`
+                    `<img src="${trialData.overlay_image_1}" style="position: absolute; left: 10%; bottom: 20%; max-height: 50vh; object-fit: contain;">`,
+                    `<img src="${trialData.overlay_image_2}" style="position: absolute; right: 10%; bottom: 20%; max-height: 50vh; object-fit: contain;">`
                 ],
                 response_ends_trial: true,
                 css_classes: ['full-screen-stimulus'],
