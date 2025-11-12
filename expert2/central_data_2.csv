@@ -5,7 +5,7 @@ practice,audio/click_mechanic.wav,,image/intro_pic.png,810,0,270,800,,,,,,,,,,,,
 practice,audio/silence.wav,,image/helicopter_check.png,100,190,540,405,,,,,,,,,,,,,
 check,audio/who_knows_more.wav,,image/lion.png,,,,,0,0,405,800,675,0,405,800,,,,,
 check,audio/who_knows_more.wav,,image/car.png,,,,,0,0,405,800,675,0,405,800,,,,,
-practice,audio/silence.wav,,image/break.png,0,0,1080,810,,,,,,,,,,,,,
+practice,audio/silence.wav,,image/break.png,0,0,1080,800,,,,,,,,,,,,,
 test,audio/where_truck.wav,,,,,,,,,,,,,,,image/table.png,image/truck.png,image/bear.png,button1,pilot
 test,audio/find_dax.wav,,,,,,,,,,,,,,,image/table.png,image/A1.png,image/V1.png,button1,pilot
 test,audio/find_gasser.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/A2.png,button2,pilot
@@ -16,5 +16,5 @@ test,audio/find_vab.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/A1.png,
 test,audio/where_smope.wav,,,,,,,,,,,,,,,image/table.png,image/A1.png,image/V1.png,button2,pilot
 test,audio/where_teebu.wav,,,,,,,,,,,,,,,image/table.png,image/V1.png,image/A2.png,button2,pilot
 test,audio/where_fisp.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/A1.png,button1,pilot
-check,audio/silence.wav,,image/V3.png,,,,,0,0,540,675,810,0,270,675,,,,,
-check,audio/silence.wav,,image/A3.png,,,,,0,0,540,675,810,0,270,675,,,,,
+check,audio/silence.wav,,image/V3.png,,,,,0,0,405,800,675,0,405,800,,,,,
+check,audio/silence.wav,,image/A3.png,,,,,0,0,405,800,675,0,405,800,,,,,
