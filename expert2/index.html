@@ -251,7 +251,7 @@
             };
         }
         
-       function createCheckTrial(trialData) {
+      function createCheckTrial(trialData) {
     // Debug logging
     console.log('=== CHECK TRIAL DATA ===');
     console.log('Button 1 data:', {
@@ -273,34 +273,34 @@
         stimulus_height: "810",
         maintain_aspect_ratio: true,
         choices: ['Button 1', 'Button 2'],
-        button_html: (choice, choice_index) => {
-            const buttonData = choice_index === 0 ? {
-                width: trialData.button1_width || 100,  // Default fallback
-                height: trialData.button1_height || 100,
-                x: trialData.button1_position_x || 0,
-                y: trialData.button1_position_y || 0
-            } : {
-                width: trialData.button2_width || 100,
-                height: trialData.button2_height || 100,
-                x: trialData.button2_position_x || 200,
-                y: trialData.button2_position_y || 0
-            };
-            
-            console.log(`Button ${choice_index} HTML data:`, buttonData);
-            
-            return `<button class="jspsych-btn check-button-${choice_index}" 
+        button_html: [
+            // Button 1 (index 0)
+            `<button class="jspsych-btn check-button-0" 
                 style="position: absolute; 
-                width: ${buttonData.width}px;
-                height: ${buttonData.height}px;
-                top: ${buttonData.y}px; 
-                left: ${buttonData.x}px;
+                width: ${trialData.button1_width || 100}px;
+                height: ${trialData.button1_height || 100}px;
+                top: ${trialData.button1_position_y || 0}px; 
+                left: ${trialData.button1_position_x || 0}px;
                 opacity: 1;
                 background-color: transparent !important;
                 border: 2px solid darkred !important;
                 outline: none !important;
                 box-shadow: none !important;
-                z-index: 1000;">${choice}</button>`;
-        },
+                z-index: 1000;">Button 1</button>`,
+            // Button 2 (index 1)
+            `<button class="jspsych-btn check-button-1" 
+                style="position: absolute; 
+                width: ${trialData.button2_width || 100}px;
+                height: ${trialData.button2_height || 100}px;
+                top: ${trialData.button2_position_y || 0}px; 
+                left: ${trialData.button2_position_x || 200}px;
+                opacity: 1;
+                background-color: transparent !important;
+                border: 2px solid darkred !important;
+                outline: none !important;
+                box-shadow: none !important;
+                z-index: 1000;">Button 2</button>`
+        ],
         css_classes: ['custom-trial', 'full-screen-stimulus'],
         response_ends_trial: true,
         on_start: function(trial) {
