@@ -70,16 +70,31 @@
         
         // iOS Audio Context Fix - CRITICAL for iPad
         let audioContextInitialized = false;
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let audioContext = null;
         
         function initializeAudioContext() {
             if (!audioContextInitialized) {
-                audioContext.resume().then(() => {
-                    log('✓ Audio context initialized for iOS');
-                    audioContextInitialized = true;
-                }).catch(err => {
-                    log('✗ Audio context initialization failed: ' + err);
-                });
+                try {
+                    if (!audioContext) {
+                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                    audioContext.resume().then(() => {
+                        log('✓ Audio context initialized for iOS');
+                        audioContextInitialized = true;
+                        
+                        // Play a silent sound to "unlock" audio on iOS
+                        const silentAudio = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAACAAABhADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1f/+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYT0I6zHAAAAAAD/+xBkAAcNdWWBs4QA');
+                        silentAudio.play().then(() => {
+                            log('✓ Silent audio unlocked iOS audio');
+                        }).catch(() => {
+                            log('Note: Silent audio unlock attempted');
+                        });
+                    }).catch(err => {
+                        log('✗ Audio context initialization failed: ' + err);
+                    });
+                } catch (err) {
+                    log('✗ Audio context creation failed: ' + err);
+                }
             }
         }
         
@@ -198,7 +213,7 @@
                 width: '100%',
                 height: '100%',
                 maintain_aspect_ratio: true,
-                autoplay: true,
+                autoplay: false, // Changed to false - we'll play manually
                 controls: false,
                 trial_ends_after_video: true,
                 css_classes: ['full-screen-video'],
@@ -223,23 +238,50 @@
                             max-height: 100vh;
                         }
                         video {
-                            -webkit-playsinline: true;
-                            playsinline: true;
+                            -webkit-playsinline: true !important;
+                            playsinline: true !important;
                         }
                     `;
                     document.head.appendChild(style);
                 },
                 on_load: function() {
-                    // Play audio after video starts playing (iOS fix)
-                    if (trialData.audio_path) {
-                        const video = document.querySelector('video');
-                        if (video) {
-                            video.addEventListener('playing', () => {
-                                playAudio(trialData.audio_path);
-                            }, { once: true });
-                        } else {
-                            playAudio(trialData.audio_path);
+                    const video = document.querySelector('video');
+                    if (video) {
+                        // Critical iOS settings
+                        video.setAttribute('playsinline', 'true');
+                        video.setAttribute('webkit-playsinline', 'true');
+                        video.muted = false;
+                        video.playsInline = true;
+                        
+                        log('Attempting to play training video...');
+                        
+                        // Try to play video with multiple fallbacks
+                        const playPromise = video.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                log('✓ Video playing');
+                                
+                                // Start audio AFTER video is confirmed playing
+                                if (trialData.audio_path) {
+                                    setTimeout(() => {
+                                        playAudio(trialData.audio_path);
+                                    }, 100); // Small delay to ensure video audio channel is active
+                                }
+                            }).catch(err => {
+                                log('✗ Video autoplay blocked: ' + err.message);
+                                
+                                // If autoplay fails, try with user interaction
+                                video.addEventListener('click', function() {
+                                    video.play();
+                                    if (trialData.audio_path) {
+                                        playAudio(trialData.audio_path);
+                                    }
+                                }, { once: true });
+                            });
                         }
+                    } else {
+                        log('✗ Video element not found');
                     }
                 },
                 on_finish: function(data) {
@@ -538,15 +580,67 @@
                 // CRITICAL: Initialize audio context on user interaction (fullscreen button click)
                 const welcome = {
                     type: jsPsychFullscreen,
-                    message: "Welcome! Click 'Start' to Play.",
+                    message: "Welcome! Click 'Start' to Play.<br><br><small>Audio will begin after clicking Start.</small>",
                     button_label: "Start",
                     delay_after: 250,
                     on_finish: function() {
                         // Initialize audio context on first user interaction
                         initializeAudioContext();
+                        
+                        // Also ensure audio is unlocked with additional method
+                        document.addEventListener('touchstart', initializeAudioContext, { once: true });
+                        document.addEventListener('click', initializeAudioContext, { once: true });
                     }
                 };
                 timeline.push(welcome);
+                
+                // Add an audio test trial to verify audio is working
+                const audioTest = {
+                    type: jsPsychHtmlKeyboardResponse,
+                    stimulus: `
+                        <div style="text-align: center; color: white;">
+                            <h2>Audio Test</h2>
+                            <p>Click the button below to test if audio is working.</p>
+                            <button id="test-audio-btn" style="padding: 20px 40px; font-size: 18px; margin: 20px;">
+                                Test Audio
+                            </button>
+                            <p id="audio-status" style="margin-top: 20px; font-size: 16px;"></p>
+                            <p style="margin-top: 40px; font-size: 14px;">Press SPACE to continue when ready</p>
+                        </div>
+                    `,
+                    choices: [' '],
+                    on_load: function() {
+                        const btn = document.getElementById('test-audio-btn');
+                        const status = document.getElementById('audio-status');
+                        
+                        btn.addEventListener('click', function() {
+                            status.textContent = 'Attempting to play test audio...';
+                            
+                            // Create a simple beep
+                            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                            const oscillator = audioContext.createOscillator();
+                            const gainNode = audioContext.createGain();
+                            
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioContext.destination);
+                            
+                            oscillator.frequency.value = 440;
+                            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                            
+                            oscillator.start(audioContext.currentTime);
+                            oscillator.stop(audioContext.currentTime + 0.5);
+                            
+                            status.textContent = '✓ Test audio played! If you heard a beep, audio is working.';
+                            status.style.color = 'lime';
+                            
+                            setTimeout(() => {
+                                status.textContent += ' Press SPACE to continue.';
+                            }, 1000);
+                        });
+                    }
+                };
+                timeline.push(audioTest);
             
                 let lastTestBackground = null;
         
