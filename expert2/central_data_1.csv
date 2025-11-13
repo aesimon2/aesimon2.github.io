@@ -1,4 +1,6 @@
 trial_type,audio_path,video_path,image_path,button_position_x,button_position_y,button_width,button_height,button1_position_x,button1_position_y,button1_width,button1_height,button2_position_x,button2_position_y,button2_width,button2_height,background_image,overlay_image_1,overlay_image_2,correct_response,condition
+practice,audio/silence.wav,,image/shapetest.png,540,0,540,400,,,,,,,,,,,,,
+practice,audio/silence.wav,,image/shapetest.png,0,400,540,400,,,,,,,,,,,,,
 training,audio/whole_intro.wav,video/intro.mp4,,,,,,,,,,,,,,,,,,
 practice,audio/click_zookeeper.wav,,image/intro_pic.png,0,0,270,800,,,,,,,,,,,,,
 training,audio/fact_giraffe.wav,video/giraffe.mp4,,,,,,,,,,,,,,,,,,
