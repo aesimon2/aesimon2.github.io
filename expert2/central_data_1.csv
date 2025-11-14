@@ -27,7 +27,6 @@ practice,audio/silence.wav,,image/break.png,0,0,1080,800,,,,,,,,,,,,,
 training,audio/noveltraining_1.wav,video/novelobjectlabeling_1.mp4,,,,,,,,,,,,,,,,,,
 practice,audio/silence.wav,,image/break.png,0,0,1080,800,,,,,,,,,,,,,
 training,audio/noveltraining_2.wav,video/novelobjectlabeling_2.mp4,,,,,,,,,,,,,,,,,,
-practice,audio/silence.wav,,image/break.png,0,0,1080,800,,,,,,,,,,,,,
 training,audio/great_remember.wav,video/novel_transition.mp4,,,,,,,,,,,,,,,,,,
 test,audio/where_truck.wav,,,,,,,,,,,,,,,image/table.png,image/truck.png,image/bear.png,button1,fam
 test,audio/find_dax.wav,,,,,,,,,,,,,,,image/table.png,image/A1.png,image/V1.png,button1,match
