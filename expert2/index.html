@@ -249,6 +249,7 @@
                     data.subject = subjectNumber;
                     data.order = orderFile;
                     data.condition = trialData.condition;
+                    data.expert = trialData.expert;
                 }
             };
         }
@@ -302,6 +303,7 @@
                     data.subject = subjectNumber;
                     data.order = orderFile;
                     data.condition = trialData.condition;
+                    data.expert = trialData.expert;
                 }
             };
         }
@@ -382,21 +384,17 @@
                 },
                 on_finish: function(data) {
                     data.trial_type = 'check';
+                    data.correct= (data.response === 0 && trialData.correct_response === 'button1') ||
+                        (data.response === 1 && trialData.correct_response === 'button2');
                     data.image_path = trialData.image_path;
-                    data.button_pressed = data.response === 0 ? 'button1' : 'button2';
-                    data.button_position = {
-                        button1: {
-                            x: trialData.button1_position_x,
-                            y: trialData.button1_position_y
-                        },
-                        button2: {
-                            x: trialData.button2_position_x,
-                            y: trialData.button2_position_y
-                        }
-                    };
+                    data.expected_response = trialData.correct_response;
+                    
+                    data.audio_path = this.audio_path;
+
                     data.subject = subjectNumber;
                     data.order = orderFile;
                     data.condition = trialData.condition;
+                    data.expert = trialData.expert;
                 }
             };
         }
@@ -479,6 +477,7 @@
                     data.subject = subjectNumber;
                     data.order = orderFile;
                     data.condition = trialData.condition;
+                    data.expert = trialData.expert;
                 }
             };
         }
