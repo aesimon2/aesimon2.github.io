@@ -42,7 +42,7 @@ test,audio/smope.wav,,,,,,,,,,,,,,,image/table.png,image/V1.png,image/V2.png,but
 test,audio/roke.wav,,,,,,,,,,,,,,,image/table.png,image/A2.png,image/A1.png,button2,nonmatch,mech
 test,audio/findbear.wav,,,,,,,,,,,,,,,image/table.png,image/bear.png,image/truck.png,button1,fam,
 test,audio/dax.wav,,,,,,,,,,,,,,,image/table.png,image/A2.png,image/A1.png,button2,match,zoo
-test,audio/where_fiffin.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/V1.png,button1,nonmatch,zoo
+test,audio/fiffin.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/V1.png,button1,nonmatch,zoo
 test,audio/teebu.wav,,,,,,,,,,,,,,,image/table.png,image/A2.png,image/A1.png,button1,nonmatch,mech
 test,audio/posk.wav,,,,,,,,,,,,,,,image/table.png,image/V2.png,image/V1.png,button2,match,mech
 test,audio/findairplane.wav,,,,,,,,,,,,,,,image/table.png,image/giraffe.png,image/plane.png,button2,fam,
