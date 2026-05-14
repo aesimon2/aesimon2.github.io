@@ -383,6 +383,7 @@
                     }
                 },
                 on_finish: function(data) {
+                    document.body.style.overflow = '';
                     data.trial_type = 'check';
                     data.correct= (data.response === 0 && trialData.correct_response === 'button1') ||
                         (data.response === 1 && trialData.correct_response === 'button2');
@@ -420,6 +421,7 @@
                     trial.audioElement = null;
                 },
                 on_load: function() {
+                    document.body.style.overflow = 'hidden';
                     const trial = this;
                     const buttons = document.querySelectorAll('.jspsych-image-button-response-button');
                     
